@@ -22,3 +22,12 @@
 header#header .logo img {
     content: url('../img/logo.svg');
 }
+
+/* Footer Removal */
+.global-footer,
+.footer,
+.footer-container,
+.layout-footer,
+#footer {
+    display: none !important;
+}

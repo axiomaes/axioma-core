@@ -78,6 +78,9 @@ COPY src/Frontend/img/logo.svg /var/www/html/client/img/logo.svg
 COPY src/Frontend/img/favicon.ico /var/www/html/client/img/favicon.ico
 COPY src/Frontend/img/favicon.svg /var/www/html/client/img/favicon.svg
 
+# 5.2 Stage Custom Overrides (JS/CSS/Metadata)
+COPY docker/overrides /stub/overrides
+
 # 6. Environment & Permissions
 RUN mkdir -p /var/www/html/data /var/www/html/custom /var/www/html/client/custom \
     && chown -R www-data:www-data /var/www/html

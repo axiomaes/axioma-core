@@ -23,7 +23,11 @@ if [ -n "$DB_HOST" ]; then
     echo "--> Database ready."
 fi
 
-# 2. Permissions Fix
+# 2. Enforce Branding Overrides (Runtime Persist)
+echo "--> Applying Axioma Core branding overrides..."
+cp -R /stub/overrides/* /var/www/html/
+
+# 3. Permissions Fix
 echo "--> Fixing permissions for volumes..."
 chown -R www-data:www-data /var/www/html/data /var/www/html/custom /var/www/html/client/custom
 

@@ -1,0 +1,20 @@
+/* Axioma Core - Login Branding Override */
+
+body.axioma-login footer,
+body.axioma-login .footer,
+body.axioma-login .global-footer,
+body.axioma-login .layout-footer {
+    display: none !important;
+}
+
+/* Legal Attribution Styling */
+.axioma-legal-text {
+    margin-top: 20px;
+    font-size: 11px;
+    color: #999;
+    text-align: center;
+    opacity: 0.7;
+    line-height: 1.4;
+    font-family: Arial, sans-serif;
+    padding: 0 10px;
+}

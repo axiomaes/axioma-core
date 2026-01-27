@@ -2,6 +2,9 @@
     "axioma-core": {
         "css": [
             "client/modules/axioma-core/res/style.css"
+        ],
+        "script": [
+            "client/modules/axioma-core/res/branding.js"
         ]
     }
 }

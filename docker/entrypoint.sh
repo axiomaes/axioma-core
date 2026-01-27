@@ -16,7 +16,7 @@ CONFIG_FILE="/var/www/html/data/config.php"
 # 1. Wait for Database
 if [ -n "$DB_HOST" ]; then
     echo "--> Waiting for Database at $DB_HOST:$DB_PORT..."
-    until mysqladmin ping -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" --password="$DB_PASS" --protocol=tcp --ssl-mode=DISABLED --silent; do
+    until mysqladmin ping -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" --password="$DB_PASS" --protocol=tcp --skip-ssl --silent; do
         echo "    DB not ready, sleeping 2s..."
         sleep 2
     done

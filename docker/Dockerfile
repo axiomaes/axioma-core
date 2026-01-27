@@ -42,13 +42,13 @@ RUN apt-get update && apt-get install -y \
     mariadb-client \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) \
-        pdo_mysql \
-        gd \
-        zip \
-        intl \
-        exif \
-        soap \
-        bcmath \
+    pdo_mysql \
+    gd \
+    zip \
+    intl \
+    exif \
+    soap \
+    bcmath \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Apache Configuration
@@ -72,6 +72,10 @@ COPY --from=builder /stub/espocrm/ /var/www/html/
 # IMPORTANT: Directories must match EspoCRM module structure
 COPY src/Backend /var/www/html/application/Espo/Modules/AxiomaCore
 COPY src/Frontend /var/www/html/client/modules/axioma-core
+
+# 5.1 Overwrite Core Branding (Explicit Override)
+COPY src/Frontend/img/logo.svg /var/www/html/client/img/logo.svg
+COPY src/Frontend/img/favicon.ico /var/www/html/client/img/favicon.ico
 
 # 6. Environment & Permissions
 RUN mkdir -p /var/www/html/data /var/www/html/custom /var/www/html/client/custom \

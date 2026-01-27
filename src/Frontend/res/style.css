@@ -1,1 +1,24 @@
 /* Axioma Core Branding */
+
+/* Login Screen Logo */
+.login-container .logo-container img {
+    content: url('../img/logo-login.png');
+    max-height: 80px;
+    /* Adjust as needed */
+    width: auto;
+}
+
+/* Navbar/Header Logo (Top Left) */
+/* Target the img inside the navbar-brand link */
+.navbar .navbar-brand img {
+    content: url('../img/logo.svg');
+    /* Using SVG for sharpness */
+    height: 24px;
+    /* Standard Espo header height adjustment */
+    width: auto;
+}
+
+/* Fallback for specific layouts or themes */
+header#header .logo img {
+    content: url('../img/logo.svg');
+}

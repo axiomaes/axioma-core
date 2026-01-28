@@ -11,20 +11,41 @@
 /* Target the img inside the navbar-brand link */
 /* === Axioma Core – Navbar Logo Scaling === */
 
-.navbar .navbar-brand {
+/* === Axioma Core – Navbar Logo Fix === */
+
+/* Ensure the header container allows flex alignment */
+.navbar-header {
     display: flex;
     align-items: center;
-    padding-left: 16px;
-    padding-right: 16px;
-    height: 48px;
+    min-height: 56px;
+    /* matches EspoCRM navbar height */
 }
 
-.navbar .navbar-brand img,
-.navbar .navbar-brand svg {
+/* Specific target for the logo container */
+.navbar-logo-container {
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    /* reduce excessive EspoCRM padding */
+    padding-right: 12px;
+}
+
+/* Optional consistency for the link wrapper */
+.navbar-logo-container a.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+/* Logo Image Sizing & Theme Consistency */
+.navbar-logo-container img,
+body[data-theme="Dark"] .navbar-logo-container img,
+body[data-theme="Light"] .navbar-logo-container img {
     content: url('../img/logo.svg');
-    height: 32px;
+    height: 40px;
     /* professional default */
     width: auto;
+    max-height: 48px;
+    /* safety cap */
     max-width: none;
     object-fit: contain;
 }

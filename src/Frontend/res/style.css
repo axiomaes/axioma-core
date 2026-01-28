@@ -7,47 +7,51 @@
     width: auto;
 }
 
-/* Navbar/Header Logo (Top Left) */
-/* Target the img inside the navbar-brand link */
-/* === Axioma Core – Navbar Logo Scaling === */
+/* === HARD OVERRIDE: EspoCRM Navbar Brand === */
 
-/* === Axioma Core – Navbar Logo Fix === */
+#navbar .navbar-header .navbar-brand {
+    height: auto !important;
+    line-height: normal !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 12px !important;
 
-/* Ensure the header container allows flex alignment */
-.navbar-header {
-    display: flex;
-    align-items: center;
-    min-height: 56px;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Force logo container sizing */
+#navbar .navbar-logo-container {
+    display: flex !important;
+    align-items: center !important;
+    height: 56px;
     /* matches EspoCRM navbar height */
 }
 
-/* Specific target for the logo container */
-.navbar-logo-container {
-    display: flex;
-    align-items: center;
-    padding-left: 12px;
-    /* reduce excessive EspoCRM padding */
-    padding-right: 12px;
-}
-
-/* Optional consistency for the link wrapper */
-.navbar-logo-container a.navbar-brand {
-    display: flex;
-    align-items: center;
-}
-
-/* Logo Image Sizing & Theme Consistency */
-.navbar-logo-container img,
-body[data-theme="Dark"] .navbar-logo-container img,
-body[data-theme="Light"] .navbar-logo-container img {
+/* Force actual logo size (SVG) */
+#navbar .navbar-logo-container img {
     content: url('../img/logo.svg');
-    height: 40px;
-    /* professional default */
-    width: auto;
-    max-height: 48px;
-    /* safety cap */
-    max-width: none;
+    height: 42px !important;
+    width: auto !important;
+    max-height: 42px !important;
     object-fit: contain;
+}
+
+/* Neutralize mobile overrides (CRITICAL) */
+@media screen and (max-width: 767px) {
+    #navbar .navbar-brand {
+        height: auto !important;
+        line-height: normal !important;
+    }
+
+    #navbar .navbar-logo-container img {
+        height: 36px !important;
+    }
+}
+
+/* Theme safety (Dark / Light) */
+body[data-theme] #navbar .navbar-logo-container img {
+    height: 42px !important;
 }
 
 /* Fallback for specific layouts or themes */

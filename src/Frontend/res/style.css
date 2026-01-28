@@ -2,20 +2,29 @@
 
 /* Login Screen Logo */
 .login-container .logo-container img {
-    content: url('../img/logo-login.png');
+    content: url('../img/logo.svg');
     max-height: 80px;
-    /* Adjust as needed */
     width: auto;
 }
 
 /* Navbar/Header Logo (Top Left) */
 /* Target the img inside the navbar-brand link */
-.navbar .navbar-brand img {
+/* === Axioma Core – Navbar Logo Scaling === */
+
+.navbar .navbar-brand {
+    display: flex;
+    align-items: center;
+    height: 48px;
+}
+
+.navbar .navbar-brand img,
+.navbar .navbar-brand svg {
     content: url('../img/logo.svg');
-    /* Using SVG for sharpness */
-    height: 24px;
-    /* Standard Espo header height adjustment */
+    height: 32px;
+    /* professional default */
     width: auto;
+    max-width: none;
+    object-fit: contain;
 }
 
 /* Fallback for specific layouts or themes */
@@ -23,21 +32,7 @@ header#header .logo img {
     content: url('../img/logo.svg');
 }
 
-/* Footer Removal - Login Only by default (as per request), but keeping global safe */
-body.login-page footer,
-body.login-page .footer,
-body.login-page .footer-container,
-body.login-page .layout-footer,
-body.login-page #footer {
-    display: none !important;
-}
-
-/* Also support EspoCRM < 8 class convention if applicable, or generic login class */
-body.login footer,
-body.login .footer,
-body.login .layout-footer {
-    display: none !important;
-}
+/* Footer always visible per legal requirements */
 
 /* Logic Attribution Styling */
 .login-container .axioma-login-attribution {

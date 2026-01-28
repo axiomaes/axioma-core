@@ -1,70 +1,22 @@
-/* === Axioma Core – Navbar Branding (Final) === */
-#navbar .navbar-header .navbar-brand {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+/* =========================================================
+   Axioma Core – Branding Styles
+   Compatible with EspoCRM 9.x
+   Persistent across theme changes
+   ========================================================= */
 
-    width: 180px !important;
-    height: var(--navbar-height) !important;
 
-    padding-left: 16px !important;
-    padding-right: 8px !important;
+/* =========================================================
+   LOGIN SCREEN
+   ========================================================= */
 
-    display: block !important;
-
-    background-image: url('../img/logo.svg') !important;
-    background-repeat: no-repeat !important;
-    background-position: left center !important;
-    background-size: contain !important;
-
-    color: transparent !important;
-    overflow: hidden;
-}
-
-/* Ensure the image tag (if present) doesn't interfere */
-#navbar .navbar-brand img {
-    display: none !important;
-}
-
-/* Container independence */
-.navbar-logo-container {
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-/* Mobile */
-@media screen and (max-width: 767px) {
-    #navbar .navbar-header .navbar-brand {
-        width: 140px !important;
-        padding-left: 12px !important;
-        padding-right: 6px !important;
-        background-position: left center !important;
-    }
-}
-
-/* Theme Consistency: Ensure background applies in both themes */
-body[data-theme] #navbar .navbar-header .navbar-brand {
-    background-image: url('../img/logo.svg') !important;
-}
-
-/* Fallback for specific layouts or themes */
-header#header .logo img {
+/* Login logo */
+.login-container .logo-container img {
     content: url('../img/logo.svg');
+    max-height: 80px;
+    width: auto;
 }
 
-/* === Sidebar ↔ Navbar Visual Alignment === */
-.side-nav {
-    padding-top: 12px;
-    /* Adjusted alignment */
-}
-
-.side-nav .nav>li>a {
-    padding-left: 15px;
-    /* Clean start alignment */
-}
-
-/* Footer always visible per legal requirements */
-
-/* Logic Attribution Styling */
+/* Legal / attribution text (optional, non-intrusive) */
 .login-container .axioma-login-attribution {
     margin-top: 16px;
     font-size: 12px;
@@ -74,3 +26,106 @@ header#header .logo img {
     line-height: 1.4;
     padding: 0 10px;
 }
+
+
+/* =========================================================
+   NAVBAR BRANDING (CRITICAL FIX)
+   ========================================================= */
+
+/*
+   EspoCRM constrains the effective navbar height.
+   Logos MUST be sized explicitly by height, not by "contain".
+*/
+
+#navbar .navbar-header .navbar-brand {
+    /* Reset EspoCRM defaults */
+    margin: 0 !important;
+
+    /* Horizontal space for logo */
+    width: 220px !important;
+
+    /* Respect navbar height */
+    height: var(--navbar-height) !important;
+
+    /* Internal alignment */
+    padding-left: 16px !important;
+    padding-right: 8px !important;
+
+    display: block !important;
+
+    /* Logo rendering */
+    background-image: url('../img/logo.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position: left center !important;
+
+    /* 🔑 KEY FIX: force visual logo height */
+    background-size: auto 34px !important;
+
+    /* Hide text */
+    color: transparent !important;
+    overflow: hidden;
+}
+
+/* Ensure no <img> interferes */
+#navbar .navbar-brand img {
+    display: none !important;
+}
+
+/* Prevent wrapper spacing issues */
+.navbar-logo-container {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+/* =========================================================
+   MOBILE NAVBAR
+   ========================================================= */
+
+@media screen and (max-width: 767px) {
+    #navbar .navbar-header .navbar-brand {
+        width: 180px !important;
+        padding-left: 12px !important;
+        padding-right: 6px !important;
+
+        /* Slightly smaller logo on mobile */
+        background-size: auto 28px !important;
+    }
+}
+
+
+/* =========================================================
+   THEME CONSISTENCY (LIGHT / DARK)
+   ========================================================= */
+
+body[data-theme] #navbar .navbar-header .navbar-brand {
+    background-image: url('../img/logo.svg') !important;
+}
+
+
+/* =========================================================
+   FALLBACKS (SAFETY)
+   ========================================================= */
+
+header#header .logo img {
+    content: url('../img/logo.svg');
+}
+
+
+/* =========================================================
+   SIDEBAR ↔ NAVBAR VISUAL ALIGNMENT
+   ========================================================= */
+
+.side-nav {
+    padding-top: 12px;
+}
+
+.side-nav .nav>li>a {
+    padding-left: 15px;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+/* Footer intentionally untouched for legal compliance */

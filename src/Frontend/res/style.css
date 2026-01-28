@@ -12,6 +12,7 @@
 /* Login logo (large brand mark) */
 .login-container .logo-container img {
     content: url('../img/logo.svg');
+    /* This will now load our overwritten Main Logo if we updated it, or fallback to default if we only updated navbar ones. Login usually uses logo.svg. */
     max-height: 80px;
     width: auto;
 }
@@ -29,54 +30,40 @@
 
 
 /* =========================================================
-   NAVBAR BRANDING (FINAL, DO NOT TOUCH)
+   NAVBAR BRANDING
    ========================================================= */
 
-/*
-   IMPORTANT:
-   - Navbar uses a dedicated logo (logo-navbar.svg)
-   - Height is controlled explicitly (24px)
-   - No "contain" hacks
-   - Works across themes and rebuilds
+/* 
+   Since we have overwritten the core 'logo.svg' and 'logo-light.svg' 
+   at the filesystem level (Docker COPY), we no longer need complex 
+   background-image overrides. The browser will load the correct 
+   Axioma Core logo naturally.
+   
+   We just need to ensure sizing and spacing.
 */
 
 #navbar .navbar-header .navbar-brand {
+    /* Reset margins for better control */
     margin: 0 !important;
 
-    /* Horizontal space reserved for logo */
-    width: 160px !important;
-
-    /* Respect EspoCRM navbar height */
-    height: var(--navbar-height) !important;
-
-    /* Internal spacing */
+    /* Ensure internal spacing aligns with sidebar */
     padding-left: 16px !important;
     padding-right: 8px !important;
 
+    /* Height matches navbar */
+    height: var(--navbar-height) !important;
+    display: flex !important;
+    /* Align image vertically */
+    align-items: center !important;
+}
+
+#navbar .navbar-header .navbar-brand img {
     display: block !important;
-
-    /* Navbar logo */
-    background-image: url('../img/logo-navbar.svg') !important;
-    background-repeat: no-repeat !important;
-    background-position: left center !important;
-
-    /* 🔑 REAL FIX: explicit visual height */
-    background-size: auto 24px !important;
-
-    /* Hide any text */
-    color: transparent !important;
-    overflow: hidden;
-}
-
-/* Ensure no <img> interferes */
-#navbar .navbar-brand img {
-    display: none !important;
-}
-
-/* Prevent wrapper spacing issues */
-.navbar-logo-container {
-    padding: 0 !important;
-    margin: 0 !important;
+    /* Restore image */
+    height: 32px !important;
+    /* Professional height */
+    width: auto !important;
+    max-height: 36px !important;
 }
 
 
@@ -86,31 +73,14 @@
 
 @media screen and (max-width: 767px) {
     #navbar .navbar-header .navbar-brand {
-        width: 140px !important;
         padding-left: 12px !important;
         padding-right: 6px !important;
-
-        /* Slightly smaller on mobile */
-        background-size: auto 20px !important;
     }
-}
 
-
-/* =========================================================
-   THEME CONSISTENCY (LIGHT / DARK)
-   ========================================================= */
-
-body[data-theme] #navbar .navbar-header .navbar-brand {
-    background-image: url('../img/logo-navbar.svg') !important;
-}
-
-
-/* =========================================================
-   FALLBACKS (SAFETY ONLY)
-   ========================================================= */
-
-header#header .logo img {
-    content: url('../img/logo-navbar.svg');
+    #navbar .navbar-header .navbar-brand img {
+        height: 28px !important;
+        /* Smaller for mobile */
+    }
 }
 
 

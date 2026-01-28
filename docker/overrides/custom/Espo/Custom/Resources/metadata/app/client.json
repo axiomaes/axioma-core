@@ -1,12 +1,4 @@
 {
-    "cssList": [
-        "__APPEND__",
-        "client/custom/axioma-core/branding.css"
-    ],
-    "scriptList": [
-        "__APPEND__",
-        "client/custom/axioma-core/branding.js"
-    ],
     "favicon": "client/custom/axioma-core/favicon.svg",
     "faviconAlternate": "client/custom/axioma-core/favicon.ico"
 }

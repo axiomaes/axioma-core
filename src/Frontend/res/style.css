@@ -1,57 +1,49 @@
-/* Axioma Core Branding */
-
-/* Login Screen Logo */
-.login-container .logo-container img {
-    content: url('../img/logo.svg');
-    max-height: 80px;
-    width: auto;
-}
-
-/* === HARD OVERRIDE: EspoCRM Navbar Brand === */
-
+/* === Axioma Core – Navbar Branding (Final) === */
 #navbar .navbar-header .navbar-brand {
-    height: auto !important;
-    line-height: normal !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    padding: 0 12px !important;
 
-    display: flex !important;
-    align-items: center !important;
+    width: 180px !important;
+    height: var(--navbar-height) !important;
+
+    padding-left: 16px !important;
+    padding-right: 8px !important;
+
+    display: block !important;
+
+    background-image: url('../img/logo.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position: left center !important;
+    background-size: contain !important;
+
+    color: transparent !important;
+    overflow: hidden;
 }
 
-/* Force logo container sizing */
-#navbar .navbar-logo-container {
-    display: flex !important;
-    align-items: center !important;
-    height: 56px;
-    /* matches EspoCRM navbar height */
+/* Ensure the image tag (if present) doesn't interfere */
+#navbar .navbar-brand img {
+    display: none !important;
 }
 
-/* Force actual logo size (SVG) */
-#navbar .navbar-logo-container img {
-    content: url('../img/logo.svg');
-    height: 42px !important;
-    width: auto !important;
-    max-height: 42px !important;
-    object-fit: contain;
+/* Container independence */
+.navbar-logo-container {
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-/* Neutralize mobile overrides (CRITICAL) */
+/* Mobile */
 @media screen and (max-width: 767px) {
-    #navbar .navbar-brand {
-        height: auto !important;
-        line-height: normal !important;
-    }
-
-    #navbar .navbar-logo-container img {
-        height: 36px !important;
+    #navbar .navbar-header .navbar-brand {
+        width: 140px !important;
+        padding-left: 12px !important;
+        padding-right: 6px !important;
+        background-position: left center !important;
     }
 }
 
-/* Theme safety (Dark / Light) */
-body[data-theme] #navbar .navbar-logo-container img {
-    height: 42px !important;
+/* Theme Consistency: Ensure background applies in both themes */
+body[data-theme] #navbar .navbar-header .navbar-brand {
+    background-image: url('../img/logo.svg') !important;
 }
 
 /* Fallback for specific layouts or themes */
@@ -61,11 +53,13 @@ header#header .logo img {
 
 /* === Sidebar ↔ Navbar Visual Alignment === */
 .side-nav {
-    padding-top: 8px;
+    padding-top: 12px;
+    /* Adjusted alignment */
 }
 
 .side-nav .nav>li>a {
-    padding-left: 20px;
+    padding-left: 15px;
+    /* Clean start alignment */
 }
 
 /* Footer always visible per legal requirements */

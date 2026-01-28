@@ -9,7 +9,7 @@
    LOGIN SCREEN
    ========================================================= */
 
-/* Login logo */
+/* Login logo (large brand mark) */
 .login-container .logo-container img {
     content: url('../img/logo.svg');
     max-height: 80px;
@@ -29,39 +29,41 @@
 
 
 /* =========================================================
-   NAVBAR BRANDING (CRITICAL FIX)
+   NAVBAR BRANDING (FINAL, DO NOT TOUCH)
    ========================================================= */
 
 /*
-   EspoCRM constrains the effective navbar height.
-   Logos MUST be sized explicitly by height, not by "contain".
+   IMPORTANT:
+   - Navbar uses a dedicated logo (logo-navbar.svg)
+   - Height is controlled explicitly (24px)
+   - No "contain" hacks
+   - Works across themes and rebuilds
 */
 
 #navbar .navbar-header .navbar-brand {
-    /* Reset EspoCRM defaults */
     margin: 0 !important;
 
-    /* Horizontal space for logo */
-    width: 220px !important;
+    /* Horizontal space reserved for logo */
+    width: 160px !important;
 
-    /* Respect navbar height */
+    /* Respect EspoCRM navbar height */
     height: var(--navbar-height) !important;
 
-    /* Internal alignment */
+    /* Internal spacing */
     padding-left: 16px !important;
     padding-right: 8px !important;
 
     display: block !important;
 
-    /* Logo rendering */
-    background-image: url('../img/logo.svg') !important;
+    /* Navbar logo */
+    background-image: url('../img/logo-navbar.svg') !important;
     background-repeat: no-repeat !important;
     background-position: left center !important;
 
-    /* 🔑 KEY FIX: force visual logo height */
-    background-size: auto 34px !important;
+    /* 🔑 REAL FIX: explicit visual height */
+    background-size: auto 24px !important;
 
-    /* Hide text */
+    /* Hide any text */
     color: transparent !important;
     overflow: hidden;
 }
@@ -84,12 +86,12 @@
 
 @media screen and (max-width: 767px) {
     #navbar .navbar-header .navbar-brand {
-        width: 180px !important;
+        width: 140px !important;
         padding-left: 12px !important;
         padding-right: 6px !important;
 
-        /* Slightly smaller logo on mobile */
-        background-size: auto 28px !important;
+        /* Slightly smaller on mobile */
+        background-size: auto 20px !important;
     }
 }
 
@@ -99,16 +101,16 @@
    ========================================================= */
 
 body[data-theme] #navbar .navbar-header .navbar-brand {
-    background-image: url('../img/logo.svg') !important;
+    background-image: url('../img/logo-navbar.svg') !important;
 }
 
 
 /* =========================================================
-   FALLBACKS (SAFETY)
+   FALLBACKS (SAFETY ONLY)
    ========================================================= */
 
 header#header .logo img {
-    content: url('../img/logo.svg');
+    content: url('../img/logo-navbar.svg');
 }
 
 

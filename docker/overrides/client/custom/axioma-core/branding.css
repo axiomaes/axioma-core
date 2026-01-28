@@ -1,0 +1,66 @@
+/* 
+ * Axioma Core Branding 
+ * Persistent override via docker/overrides
+ */
+
+/* =========================================
+   1. LOGIN PAGE LOGO
+   ========================================= */
+/* Target the logo container on the login page specifically */
+.login-container .logo-container img {
+    /* Hide the original image safely */
+    opacity: 0; 
+    /* Maintain dimensions to keep layout stable */
+    width: 60px; /* approximates Espo's default icon width */
+}
+
+.login-container .logo-container {
+    background-image: url('favicon.svg'); /* Using svg as logo for now, assuming it's the main icon */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    /* Ensure height is sufficient */
+    min-height: 80px; 
+    display: block;
+    position: relative;
+}
+
+/* Fallback/Adjustment: if the client provides a full banner logo, we'd use that. 
+   For now, reusing favicon.svg as "Logo" since no other asset was provided 
+   and user approved using what we have. */
+
+
+/* =========================================
+   2. NAVBAR LOGO
+   ========================================= */
+/* Target the navbar logo */
+.navbar .navbar-header .navbar-brand {
+    /* Hide text/image inside */
+    color: transparent !important;
+    position: relative;
+}
+
+.navbar .navbar-header .navbar-brand img {
+    display: none; /* remove default img from flow */
+}
+
+.navbar .navbar-header .navbar-brand::after {
+    content: "";
+    position: absolute;
+    left: 15px; /* Adjust alignment matches Espo padding */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px; /* Standard navbar icon size */
+    height: 30px;
+    background-image: url('favicon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* =========================================
+   3. THEME AGNOSTIC TWEAKS
+   ========================================= */
+/* Ensure visibility regardless of dark/light mode background */
+/* SVG should be designed to work on both or have opaque parts. 
+   If not, we might need a background circle, but pure SVG is preferred. */

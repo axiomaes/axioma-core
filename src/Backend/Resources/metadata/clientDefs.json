@@ -3,8 +3,13 @@
         "css": [
             "client/modules/axioma-core/res/style.css"
         ],
+        "scripts": [
+            "client/modules/axioma-core/res/branding.js"
+        ],
         "views": {
             "login": "client/modules/axioma-core/views/login.js"
-        }
+        },
+        "favicon": "client/modules/axioma-core/img/favicon.svg",
+        "faviconAlternate": "client/modules/axioma-core/img/favicon.ico"
     }
 }

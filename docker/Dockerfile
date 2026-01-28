@@ -73,6 +73,9 @@ COPY --from=builder /stub/espocrm/ /var/www/html/
 COPY src/Backend /var/www/html/application/Espo/Modules/AxiomaCore
 COPY src/Frontend /var/www/html/client/modules/axioma-core
 
+ARG BUILD_ID
+
+
 # 5.1 Overwrite Core Branding (Explicit Override)
 # We overwrite the default logos with our navbar logo to match all themes (Core Asset Replacement)
 COPY src/Frontend/img/logo-navbar.svg /var/www/html/client/img/logo.svg

@@ -1,27 +1,29 @@
-define('views/app', ['views/app'], function (Dep) {
-
+define('custom:views/app', ['views/app'], function (Dep) {
     return Dep.extend({
+        afterRender: function () {
+            Dep.prototype.afterRender.call(this);
+            this.hardenBranding();
+        },
 
-        updatePageTitle: function () {
-            // Call parent method first to set standard title
-            Dep.prototype.updatePageTitle.call(this);
-
-            var title = document.title;
-            // Fetch branding from Config or I18n
-            var appName = this.getConfig().get('applicationName') ||
-                this.translate('applicationName', 'Global') ||
-                'Axioma Core';
-
-            // 1. Handle "EspoCRM" or "Login" default titles
-            if (title === 'EspoCRM' || title === 'Login') {
-                document.title = appName;
-                return;
+        hardenBranding: function () {
+            // Force Logo
+            var path = 'client/custom/img/logo.svg';
+            var $logo = this.$el.find('.navbar-header .navbar-brand img');
+            if ($logo.length) {
+                $logo.attr('src', path);
             }
 
-            // 2. Append Branding if not already present
-            if (title && title.indexOf(appName) === -1) {
-                document.title = title + ' | ' + appName;
-            }
+            // Force Title
+            var $title = this.$el.find('.navbar-header .navbar-brand');
+            // Check if text node exists or we need to replace it. 
+            // Often logo is inside brand.
+            // We want to ensure 'Axioma Core' is the title if visible.
+            document.title = 'Axioma Core';
         }
     });
+});
+
+// Enforce Override by hijacking the Module ID
+define('views/app', ['custom:views/app'], function (Custom) {
+    return Custom;
 });

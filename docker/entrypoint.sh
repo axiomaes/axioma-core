@@ -167,6 +167,8 @@ log "Running maintenance sequence..."
 su -s /bin/bash www-data -c "php command.php clear-cache"
 
 # Check if Schema exists (look for 'user' table)
+# Check if Schema exists (look for 'user' table)
+# We add "|| echo '0'" to handle cases where php exits non-zero (e.g. connection error) so the script doesn't crash under set -e
 TABLE_EXISTS=$(php -r "
     try {
         \$pdo = new PDO('mysql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_NAME', '$DB_USER', '$DB_PASS');
@@ -175,7 +177,7 @@ TABLE_EXISTS=$(php -r "
     } catch (PDOException \$e) {
         echo '0';
     }
-")
+" || echo '0')
 
 if [ "$TABLE_EXISTS" == "1" ]; then
     log "Existing schema detected. Running upgrade..."

@@ -165,7 +165,25 @@ fi
 # =========================================================
 log "Running maintenance sequence..."
 su -s /bin/bash www-data -c "php command.php clear-cache"
-su -s /bin/bash www-data -c "php command.php upgrade"
+
+# Check if Schema exists (look for 'user' table)
+TABLE_EXISTS=$(php -r "
+    try {
+        \$pdo = new PDO('mysql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_NAME', '$DB_USER', '$DB_PASS');
+        \$stmt = \$pdo->query(\"SHOW TABLES LIKE 'user'\");
+        echo \$stmt->rowCount() > 0 ? '1' : '0';
+    } catch (PDOException \$e) {
+        echo '0';
+    }
+")
+
+if [ "$TABLE_EXISTS" == "1" ]; then
+    log "Existing schema detected. Running upgrade..."
+    su -s /bin/bash www-data -c "php command.php upgrade"
+else
+    log "Fresh database detected (no 'user' table). Skipping upgrade."
+fi
+
 su -s /bin/bash www-data -c "php command.php rebuild"
 
 # =========================================================

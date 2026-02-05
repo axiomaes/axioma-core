@@ -1,0 +1,13 @@
+{
+    "name": "Travel Agency",
+    "parent": "Axioma",
+    "palette": {
+        "brand": "#319795",
+        "brandText": "#ffffff",
+        "navbar": "#2c7a7b",
+        "navbarText": "#ffffff"
+    },
+    "logo": {
+        "url": "client/custom/themes/travel-agency/img/logo.svg"
+    }
+}

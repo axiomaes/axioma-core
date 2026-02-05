@@ -1,0 +1,14 @@
+{
+    "fields": {
+        "stage": {
+            "options": [
+                "New",
+                "Qualified",
+                "Proposal",
+                "Negotiation",
+                "Closed Won",
+                "Closed Lost"
+            ]
+        }
+    }
+}

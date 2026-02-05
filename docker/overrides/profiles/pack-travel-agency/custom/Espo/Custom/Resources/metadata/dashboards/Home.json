@@ -1,0 +1,30 @@
+{
+    "layout": [
+        {
+            "id": "trips-pipeline",
+            "name": "Bookings Pipeline",
+            "type": "sales-pipeline",
+            "row": 0,
+            "col": 0,
+            "width": 2,
+            "height": 2,
+            "params": {
+                "entityType": "Opportunity"
+            }
+        },
+        {
+            "id": "upcoming-departures",
+            "name": "Upcoming Departures",
+            "type": "record-list",
+            "row": 0,
+            "col": 2,
+            "width": 2,
+            "height": 2,
+            "params": {
+                "entityType": "Opportunity",
+                "sortBy": "departureDate",
+                "asc": true
+            }
+        }
+    ]
+}

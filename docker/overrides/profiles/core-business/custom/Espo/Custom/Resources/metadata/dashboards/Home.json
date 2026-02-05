@@ -1,0 +1,45 @@
+{
+    "layout": [
+        {
+            "id": "pipeline",
+            "name": "Pipeline",
+            "type": "sales-pipeline",
+            "row": 0,
+            "col": 0,
+            "width": 2,
+            "height": 2,
+            "params": {
+                "entityType": "Opportunity"
+            }
+        },
+        {
+            "id": "activities",
+            "name": "My Tasks",
+            "type": "record-list",
+            "row": 0,
+            "col": 2,
+            "width": 2,
+            "height": 2,
+            "params": {
+                "entityType": "Task",
+                "scope": "User",
+                "sortBy": "dueDate",
+                "asc": false
+            }
+        },
+        {
+            "id": "recent-opps",
+            "name": "Recent Opportunities",
+            "type": "record-list",
+            "row": 2,
+            "col": 0,
+            "width": 4,
+            "height": 2,
+            "params": {
+                "entityType": "Opportunity",
+                "sortBy": "modifiedAt",
+                "asc": false
+            }
+        }
+    ]
+}

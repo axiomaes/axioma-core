@@ -1,0 +1,14 @@
+{
+    "name": "Axioma",
+    "stylesheet": "client/custom/themes/axioma/css/axioma.css",
+    "developerMode": true,
+    "palette": {
+        "brand": "#2d3748",
+        "brandText": "#ffffff",
+        "navbar": "#1a202c",
+        "navbarText": "#ffffff"
+    },
+    "logo": {
+        "url": "client/custom/themes/axioma/img/logo.svg"
+    }
+}

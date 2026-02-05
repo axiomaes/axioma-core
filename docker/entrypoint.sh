@@ -1,7 +1,11 @@
 #!/bin/bash
 set -e
 
-echo "--> [Axioma Core] Container starting (EspoCRM 9.2.7)..."
+log() {
+    echo "--> [Axioma Core] $*"
+}
+
+log "Container starting (EspoCRM 9.2.7)..."
 
 # =========================================================
 # Global Variables
@@ -12,14 +16,17 @@ DB_PASS="$ESPOCRM_DATABASE_PASSWORD"
 DB_NAME="$ESPOCRM_DATABASE_NAME"
 DB_PORT="${ESPOCRM_DATABASE_PORT:-3306}"
 
+AXIOMA_PROFILE="${AXIOMA_PROFILE:-default}"
+
 CONFIG_INTERNAL="/var/www/html/data/config-internal.php"
 CONFIG_FILE="/var/www/html/data/config.php"
+CONFIG_OVERRIDE="/var/www/html/data/config-override.php"
 
 # =========================================================
 # 1. Wait for Database
 # =========================================================
 if [ -n "$DB_HOST" ]; then
-    echo "--> Waiting for Database at $DB_HOST:$DB_PORT..."
+    log "Waiting for Database at $DB_HOST:$DB_PORT..."
     until mysqladmin ping \
         -h "$DB_HOST" \
         -P "$DB_PORT" \
@@ -31,46 +38,71 @@ if [ -n "$DB_HOST" ]; then
         echo "    DB not ready, sleeping 2s..."
         sleep 2
     done
-    echo "--> Database ready."
+    log "Database ready."
 fi
 
 # =========================================================
-# 2. Apply Branding Overrides (Runtime Persist)
+# 2. Apply Overrides (Base + Profile) — SAFE MERGE
 # =========================================================
-echo "--> Applying Axioma Core branding overrides..."
-if [ -d "/stub/overrides" ]; then
-    cp -R /stub/overrides/* /var/www/html/
+apply_override() {
+    local src="$1"
+    local dest="/var/www/html"
+
+    if [ -d "$src" ]; then
+        log "Merging overrides: $src -> $dest"
+        # Check if rsync is available (preferred)
+        if command -v rsync >/dev/null 2>&1; then
+            # -a: archive mode, --no-o --no-g: don't preserve owner/group (we fix later)
+            # --omit-dir-times: prevent timestamp issues on dirs
+            rsync -a --no-o --no-g --omit-dir-times "$src/" "$dest/"
+        else
+            # Fallback to cp (recursive, no clobber check, simple overwrite)
+            cp -R "$src/." "$dest/"
+        fi
+    fi
+}
+
+log "Applying overrides (Profile: $AXIOMA_PROFILE)"
+
+# Base (Axioma Core defaults)
+apply_override "/stub/overrides/base"
+
+# Profile (client-specific)
+PROFILE_PATH="/stub/overrides/profiles/$AXIOMA_PROFILE"
+if [ -d "$PROFILE_PATH" ]; then
+    apply_override "$PROFILE_PATH"
+else
+    log "Warning: profile '$AXIOMA_PROFILE' not found. Using base only."
 fi
 
 # =========================================================
-# 3. Fix Permissions (Volumes + Custom)
+# 3. Fix Permissions
 # =========================================================
-echo "--> Fixing permissions for volumes..."
+log "Fixing permissions..."
 chown -R www-data:www-data \
     /var/www/html/data \
     /var/www/html/custom \
-    /var/www/html/client/custom
+    /var/www/html/client/custom || true
 
 # =========================================================
-# 4. Config Initialization (Idempotent)
+# 4. Config Initialization (Idempotent, SAFE)
 # =========================================================
 if [ -f "$CONFIG_INTERNAL" ]; then
-    echo "--> [Check] config-internal.php exists."
-    echo "    Skipping generation to PRESERVE passwordSalt and cryptKey."
+    log "config-internal.php exists. Preserving cryptKey and passwordSalt."
 else
-    echo "--> [First Run] Generating config-internal.php..."
+    log "First run: generating config-internal.php"
 
     SALT="$ESPOCRM_SALT"
     CRYPT="$ESPOCRM_CRYPT_KEY"
 
     if [ -z "$SALT" ]; then
         SALT=$(php -r 'echo bin2hex(random_bytes(16));')
-        echo "    Generated new passwordSalt."
+        log "Generated new passwordSalt."
     fi
 
     if [ -z "$CRYPT" ]; then
         CRYPT=$(php -r 'echo bin2hex(random_bytes(16));')
-        echo "    Generated new cryptKey."
+        log "Generated new cryptKey."
     fi
 
     cat > "$CONFIG_INTERNAL" <<EOF
@@ -88,15 +120,14 @@ return [
     'cryptKey' => '$CRYPT',
 ];
 EOF
-
     chown www-data:www-data "$CONFIG_INTERNAL"
 fi
 
 # =========================================================
-# 5. Ensure config.php Exists (Safe Default)
+# 5. Ensure config.php Exists (Base Runtime Config)
 # =========================================================
 if [ ! -f "$CONFIG_FILE" ]; then
-    echo "--> [Notice] config.php missing. Creating minimal default..."
+    log "config.php missing. Creating minimal default."
     cat > "$CONFIG_FILE" <<EOF
 <?php
 return [
@@ -108,15 +139,37 @@ EOF
 fi
 
 # =========================================================
-# 6. Maintenance Sequence (CRITICAL ORDER)
+# 6. Merge config-override.php (Profile Branding / Flags)
 # =========================================================
-echo "--> Running Maintenance Sequence..."
+if [ -f "$CONFIG_OVERRIDE" ]; then
+    log "Merging config-override.php into config.php"
+    php -r '
+        $baseFile = "/var/www/html/data/config.php";
+        $ovrFile  = "/var/www/html/data/config-override.php";
+
+        $base = file_exists($baseFile) ? include $baseFile : [];
+        $ovr  = include $ovrFile;
+
+        if (!is_array($base)) $base = [];
+        if (!is_array($ovr))  $ovr = [];
+
+        $merged = array_replace_recursive($base, $ovr);
+        $out = "<?php\nreturn " . var_export($merged, true) . ";\n";
+        file_put_contents($baseFile, $out);
+    '
+    chown www-data:www-data "$CONFIG_FILE"
+fi
+
+# =========================================================
+# 7. Maintenance Sequence (CRITICAL ORDER)
+# =========================================================
+log "Running maintenance sequence..."
 su -s /bin/bash www-data -c "php command.php clear-cache"
 su -s /bin/bash www-data -c "php command.php upgrade"
 su -s /bin/bash www-data -c "php command.php rebuild"
 
 # =========================================================
-# 7. Start Apache
+# 8. Start Apache
 # =========================================================
-echo "--> [Axioma Core] Ready. Starting Apache."
+log "Axioma Core ready. Starting Apache."
 exec "$@"

@@ -1,0 +1,9 @@
+[
+    "name",
+    "status",
+    "emailAddress",
+    "phoneNumber",
+    "source",
+    "assignedUser",
+    "createdAt"
+]

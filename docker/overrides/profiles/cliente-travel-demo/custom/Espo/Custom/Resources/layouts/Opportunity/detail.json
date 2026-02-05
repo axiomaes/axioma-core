@@ -1,0 +1,85 @@
+[
+    {
+        "label": "Trip Details",
+        "rows": [
+            [
+                {
+                    "name": "name"
+                },
+                {
+                    "name": "account"
+                }
+            ],
+            [
+                {
+                    "name": "destination"
+                },
+                {
+                    "name": "travelersCount"
+                }
+            ],
+            [
+                {
+                    "name": "departureDate"
+                },
+                {
+                    "name": "returnDate"
+                }
+            ],
+            [
+                {
+                    "name": "stage"
+                },
+                {
+                    "name": "budget"
+                }
+            ],
+            [
+                {
+                    "name": "amount"
+                },
+                {
+                    "name": "leadSource"
+                }
+            ],
+            [
+                {
+                    "name": "providerName"
+                },
+                {
+                    "name": "probability"
+                }
+            ]
+        ]
+    },
+    {
+        "label": "Notes",
+        "rows": [
+            [
+                {
+                    "name": "bookingNotes",
+                    "fullWidth": true
+                }
+            ],
+            [
+                {
+                    "name": "description",
+                    "fullWidth": true
+                }
+            ]
+        ]
+    },
+    {
+        "label": "System",
+        "rows": [
+            [
+                {
+                    "name": "assignedUser"
+                },
+                {
+                    "name": "createdByKey"
+                }
+            ]
+        ]
+    }
+]

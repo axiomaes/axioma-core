@@ -1,0 +1,41 @@
+{
+    "fields": {
+        "stage": {
+            "options": [
+                "Inquiry",
+                "Quotation",
+                "Proposal Sent",
+                "Confirmed",
+                "Paid",
+                "Completed",
+                "Cancelled"
+            ]
+        },
+        "destination": {
+            "type": "varchar",
+            "len": 255,
+            "required": false
+        },
+        "departureDate": {
+            "type": "date"
+        },
+        "returnDate": {
+            "type": "date"
+        },
+        "travelersCount": {
+            "type": "int",
+            "len": 4,
+            "default": 1
+        },
+        "budget": {
+            "type": "currency"
+        },
+        "providerName": {
+            "type": "varchar",
+            "len": 150
+        },
+        "bookingNotes": {
+            "type": "text"
+        }
+    }
+}

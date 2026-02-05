@@ -28,6 +28,7 @@ FROM php:8.3-apache
 
 # 1. Install System Dependencies & PHP Extensions
 RUN apt-get update && apt-get install -y \
+    rsync \
     libpng-dev \
     libjpeg-dev \
     libwebp-dev \
@@ -76,12 +77,7 @@ COPY src/Frontend /var/www/html/client/modules/axioma-core
 ARG BUILD_ID
 
 
-# 5.1 Overwrite Core Branding (Explicit Override)
-# We overwrite the default logos with our navbar logo to match all themes (Core Asset Replacement)
-COPY src/Frontend/img/logo-navbar.svg /var/www/html/client/img/logo.svg
-COPY src/Frontend/img/logo-navbar.svg /var/www/html/client/img/logo-light.svg
-COPY src/Frontend/img/favicon.ico /var/www/html/client/img/favicon.ico
-COPY src/Frontend/img/favicon.svg /var/www/html/client/img/favicon.svg
+
 
 # 5.2 Stage Custom Overrides (JS/CSS/Metadata)
 COPY docker/overrides /stub/overrides

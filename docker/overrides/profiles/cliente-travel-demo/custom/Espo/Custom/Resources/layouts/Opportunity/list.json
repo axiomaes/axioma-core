@@ -1,0 +1,9 @@
+[
+    "name",
+    "stage",
+    "destination",
+    "departureDate",
+    "amount",
+    "account",
+    "assignedUser"
+]

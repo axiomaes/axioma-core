@@ -166,20 +166,24 @@ fi
 log "Running maintenance sequence..."
 su -s /bin/bash www-data -c "php command.php clear-cache"
 
-# Check if Schema exists (look for 'user' table)
+# Check if Schema exists (look for 'entity_type' and 'settings' tables to confirm install)
 # Fix: Suppress stderr to avoid pollution, ensure clean output "1" or "0"
-TABLE_EXISTS=$(php -r "
+# INSTALLED=1 implies a completed install.
+INSTALLED=$(php -r "
     error_reporting(0);
     try {
         \$pdo = new PDO('mysql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_NAME', '$DB_USER', '$DB_PASS');
-        \$stmt = \$pdo->query(\"SHOW TABLES LIKE 'user'\");
-        echo (\$stmt && \$stmt->rowCount() > 0) ? '1' : '0';
+        \$stmt1 = \$pdo->query(\"SHOW TABLES LIKE 'entity_type'\");
+        \$stmt2 = \$pdo->query(\"SHOW TABLES LIKE 'settings'\");
+        echo (\$stmt1 && \$stmt1->rowCount() > 0 && \$stmt2 && \$stmt2->rowCount() > 0) ? '1' : '0';
     } catch (Throwable \$e) {
         echo '0';
     }
 " 2>/dev/null || echo '0')
 
-if [ "$TABLE_EXISTS" == "1" ]; then
+log "INSTALLED=$INSTALLED"
+
+if [ "$INSTALLED" == "1" ]; then
     log "Existing schema detected. Running upgrade..."
     su -s /bin/bash www-data -c "php command.php upgrade"
 else
